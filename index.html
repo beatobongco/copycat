@@ -13,7 +13,7 @@
       }
 
       .app {
-        background-color: gray;
+        background-color: #95afc0;
         padding: 1rem;
         border-radius: 3px;
       }
@@ -45,7 +45,7 @@
   <body>
     <h1>copycat.js 🐱</h1>
     <p>
-      Make DOM elements copy the shallow properties of an object in 336 bytes!
+      Make DOM elements copy the shallow properties of an object in 335 bytes!
     </p>
 
     <p>
@@ -83,7 +83,7 @@
 
     <p>
       <code>
-        const cat = copyCat( 'app', { name: 'cat', value: 1 }, data =>
+        const cat = copyCat( '#app', { name: 'cat', value: 1 }, data =>
         `&lt;p&gt; Hi, I'm ${data.name}. I have a value of ${data.value}
         &lt;/p&gt;` );
       </code>
@@ -95,18 +95,18 @@
 
     <p>
       <code>
-        function copyCat(e,t,r){function
-        n(t){document.getElementById(e).innerHTML=r(t)}return n(t),new
-        Proxy(t,{get(e,t,r){try{return new Proxy(e[t],handler)}catch(n){return
-        Reflect.get(e,t,r)}},defineProperty(e,r,o){const
-        c=Reflect.defineProperty(e,r,o);return n(t),c},deleteProperty(e,r){const
-        o=Reflect.defineProperty(e,r);return n(t),o}})}
+        function copyCat(e,r,t){function
+        n(r){document.querySelector(e).innerHTML=t(r)}return n(r),new
+        Proxy(r,{get(e,r,t){try{return new Proxy(e[r],handler)}catch(n){return
+        Reflect.get(e,r,t)}},defineProperty(e,t,o){const
+        c=Reflect.defineProperty(e,t,o);return n(r),c},deleteProperty(e,t){const
+        o=Reflect.defineProperty(e,t);return n(r),o}})}
       </code>
     </p>
 
     <h3>Credits</h3>
 
-    Borrowed Sindre Sorhus's code from
+    "Borrowed" Sindre Sorhus's code from
     <a href="https://github.com/sindresorhus/on-change"
       >https://github.com/sindresorhus/on-change</a
     >
@@ -114,7 +114,7 @@
     <script>
       function copyCat(elem, obj, templateF) {
         function render(data) {
-          document.getElementById(elem).innerHTML = templateF(data);
+          document.querySelector(elem).innerHTML = templateF(data);
         }
         render(obj);
         return new Proxy(obj, {
