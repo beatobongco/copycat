@@ -117,40 +117,18 @@ cat.name = 'Tom';
       </code>
     </p>
 
+    <p><a href="https://github.com/beatobongco/copycat/blob/master/copycat.js"></a>Want to see the code?</p>
+
     <h3>Credits</h3>
+    <p>
+      "Borrowed" Sindre Sorhus's code from
+      <a href="https://github.com/sindresorhus/on-change"
+        >https://github.com/sindresorhus/on-change</a
+      >
+    </p>
 
-    "Borrowed" Sindre Sorhus's code from
-    <a href="https://github.com/sindresorhus/on-change"
-      >https://github.com/sindresorhus/on-change</a
-    >
-
+    <script src="copycat.js"></script>
     <script>
-      function copyCat(elem, obj, templateF) {
-        function render(data) {
-          document.querySelector(elem).innerHTML = templateF(data);
-        }
-        render(obj);
-        return new Proxy(obj, {
-          get(target, property, receiver) {
-            try {
-              return new Proxy(target[property], handler);
-            } catch (err) {
-              return Reflect.get(target, property, receiver);
-            }
-          },
-          defineProperty(target, property, descriptor) {
-            const r = Reflect.defineProperty(target, property, descriptor);
-            render(obj);
-            return r;
-          },
-          deleteProperty(target, property) {
-            const r = Reflect.defineProperty(target, property);
-            render(obj);
-            return r;
-          }
-        });
-      }
-
       const cat = copyCat(
         '#app',
         {
