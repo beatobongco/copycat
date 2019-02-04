@@ -12,7 +12,7 @@ function copyCat(elem, obj, templateF) {
 
     const handleChange = () => {
       if (!inApply) {
-        onChange(object);
+        onChange(object); // here it is
       } else if (!changed) {
         changed = true;
       }
@@ -109,7 +109,7 @@ function copyCat(elem, obj, templateF) {
           const result = Reflect.apply(target, thisArg, argumentsList);
 
           if (changed) {
-            onChange(object);
+            onChange(object); // here is another one
           }
 
           inApply = false;
