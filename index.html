@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>copycat.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        width: 500px;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
+
+      .app {
+        background-color: gray;
+        padding: 1rem;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>copycat.js 🐱</h1>
+    <p>
+      Make DOM elements copy the shallow properties of an object in 336 bytes!
+    </p>
+
+    <p>
+      Try changing the value of <code>cat.name</code> and
+      <code>cat.value</code> in your console.
+    </p>
+
+    <div class="app" id="app"></div>
+
+    <p>
+      copycat is shallow. Executing <code>cat2.nest.value = 2</code> wont result
+      in a change but <code>cat2.nest = {value: 2}</code> will!
+    </p>
+
+    <div class="app" id="app2"></div>
+
+    <h3>Usage</h3>
+
+    <p>
+      copycat(element_id, object_to_bind, template_function)
+    </p>
+
+    <ul>
+      <li>
+        element_id: id of the element where you want to mount the template
+      </li>
+      <li>object_to_bind: object you want to bind</li>
+      <li>
+        template_function: function with one argument used to fill in the
+        template string
+      </li>
+    </ul>
+
+    <h3>Example</h3>
+
+    <p>
+      <code>
+        const cat = copyCat( 'app', { name: 'cat', value: 1 }, data =>
+        `&lt;p&gt; Hi, I'm ${data.name}. I have a value of ${data.value}
+        &lt;/p&gt;` );
+      </code>
+    </p>
+
+    <p>Copy the following code into your project:</p>
+
+    <p>
+      <code>
+        function copyCat(e,t,r){function
+        n(t){document.getElementById(e).innerHTML=r(t)}return n(t),new
+        Proxy(t,{get(e,t,r){try{return new Proxy(e[t],handler)}catch(n){return
+        Reflect.get(e,t,r)}},defineProperty(e,r,o){const
+        c=Reflect.defineProperty(e,r,o);return n(t),c},deleteProperty(e,r){const
+        o=Reflect.defineProperty(e,r);return n(t),o}})}
+      </code>
+    </p>
+
+    <script>
+      function copyCat(elem, obj, templateF) {
+        function render(data) {
+          document.getElementById(elem).innerHTML = templateF(data);
+        }
+        render(obj);
+        return new Proxy(obj, {
+          get(target, property, receiver) {
+            try {
+              return new Proxy(target[property], handler);
+            } catch (err) {
+              return Reflect.get(target, property, receiver);
+            }
+          },
+          defineProperty(target, property, descriptor) {
+            const r = Reflect.defineProperty(target, property, descriptor);
+            render(obj);
+            return r;
+          },
+          deleteProperty(target, property) {
+            const r = Reflect.defineProperty(target, property);
+            render(obj);
+            return r;
+          }
+        });
+      }
+
+      const cat = copyCat(
+        'app',
+        {
+          name: 'cat',
+          value: 1
+        },
+        data => `<p>
+          Hi, I'm ${data.name}. I have a value of ${data.value}
+        </p>`
+      );
+
+      const cat2 = copyCat(
+        'app2',
+        { nest: { value: 1 } },
+        data => `Nested value: ${data.nest.value}`
+      );
+    </script>
+  </body>
+</html>
