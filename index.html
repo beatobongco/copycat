@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>copycat.js</title>
-    <meta name="description" content="Make DOM elements copy shallow properties of an object in 335 bytes!" />
+    <meta name="description" content="Make DOM elements copy properties of an object in 335 bytes!" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       body {
@@ -46,7 +46,7 @@
   <body>
     <h1>copycat.js 🐱</h1>
     <p>
-      Make DOM elements copy shallow properties of an object in 335 bytes!
+      Make DOM elements copy properties of an object in 335 bytes!
     </p>
 
     <p>
@@ -57,8 +57,7 @@
     <div class="app" id="app"></div>
 
     <p>
-      copycat is shallow. Executing <code>cat2.nest.value = 2</code> wont result
-      in a change but <code>cat2.nest = {value: 2}</code> will!
+      Copycat works recursively, just like the <a href="https://github.com/sindresorhus/on-change">library</a> it was copied from. Here is some nested data <code>{nested: {value: 1}}</code>, try executing <code>cat2.nested.value = 10</code>!
     </p>
 
     <div class="app" id="app2"></div>
@@ -110,16 +109,15 @@ cat.name = 'Tom';
 
     <p>
       <code>
-        function copyCat(e,r,t){function
-        n(r){document.querySelector(e).innerHTML=t(r)}return n(r),new
-        Proxy(r,{get(e,r,t){try{return new Proxy(e[r],handler)}catch(n){return
-        Reflect.get(e,r,t)}},defineProperty(e,t,o){const
-        c=Reflect.defineProperty(e,t,o);return n(r),c},deleteProperty(e,t){const
-        o=Reflect.defineProperty(e,t);return n(r),o}})}
+        function copyCat(e,t,r){function n(t){document.querySelector(e).innerHTML=r(t)}return n(t),function(e,t){const r=Symbol("ProxyTarget");let n=!1,o=!1;const c=new WeakMap,f=()=>{n?o||(o=!0):t(e)},u=(e,t)=>{c.has(e)&&c.get(e).delete(t)},l={get(e,t,n){if(t===r)return e;const o=Reflect.get(e,t,n);if((e=>null===e||"object"!=typeof e&&"function"!=typeof e)(o))return o;const f=((e,t)=>{c.has(e)||c.set(e,new Map);const r=c.get(e);if(r.has(t))return r.get(t);const n=Reflect.getOwnPropertyDescriptor(e,t);return r.set(t,n),n})(e,t);if(f&&!f.configurable){if(f.set&&!f.get)return;if(!1===f.writable)return o}return new Proxy(o,l)},set(e,t,n,o){n&&void 0!==n[r]&&(n=n[r]);const c=Reflect.get(e,t,n,o),u=Reflect.set(e,t,n);return c!==n&&f(),u},defineProperty(e,t,r){const n=Reflect.defineProperty(e,t,r);return u(e,t),f(),n},deleteProperty(e,t){const r=Reflect.deleteProperty(e,t);return u(e,t),f(),r},apply(r,c,f){if(!n){n=!0;const u=Reflect.apply(r,c,f);return o&&t(e),n=!1,o=!1,u}return Reflect.apply(r,c,f)}};return new Proxy(e,l)}(t,n)}
       </code>
     </p>
 
-    <p><a href="https://github.com/beatobongco/copycat/blob/master/copycat.js">Want to see the code?</a></p>
+    <p>
+      <a href="https://github.com/beatobongco/copycat/blob/master/copycat.js">Minified version</a>
+      or did you want to see the <a href="https://github.com/beatobongco/copycat/blob/master/copycat.js">code?
+      </a>
+    </p>
 
     <h3>Credits</h3>
     <p>
@@ -146,8 +144,8 @@ cat.name = 'Tom';
 
       const cat2 = copyCat(
         '#app2',
-        { nest: { value: 1 } },
-        data => `Nested value: ${data.nest.value}`
+        { nested: { value: 1 } },
+        data => `Nested value: ${data.nested.value}`
       );
     </script>
   </body>
