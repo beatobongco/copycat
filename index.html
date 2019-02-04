@@ -82,11 +82,24 @@
     <h3>Example</h3>
 
     <p>
-      <code>
-        const cat = copyCat( '#app', { name: 'cat', value: 1 }, data =>
-        `&lt;p&gt; Hi, I'm ${data.name}. I have a value of ${data.value}
-        &lt;/p&gt;` );
-      </code>
+      <pre>
+        <code>
+&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;
+
+const cat = copyCat(
+  '#app',
+  {
+    name: 'cat',
+    value: 1
+  },
+  data => `&lt;p&gt;
+    Hi, I'm ${data.name}. I have a value of ${data.value}
+  &lt;/p&gt;`
+  );
+
+cat.name = 'Tom';
+        </code>
+      </pre>
     </p>
 
     <h3>Installation</h3>
@@ -148,6 +161,8 @@
           Hi, I'm ${data.name}. I have a value of ${data.value}
         </p>`
       );
+
+      cat.name = 'Tom';
 
       const cat2 = copyCat(
         '#app2',
